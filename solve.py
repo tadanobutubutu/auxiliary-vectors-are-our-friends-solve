@@ -43,6 +43,9 @@ def main() -> None:
     io.recvuntil(b"values: ")
     random_bytes = bytes.fromhex(io.recvline().strip().decode())
     log.info(f"random bytes: {random_bytes.hex()}")
+    # サーバーは読み取れた分だけを 16 進数で表示する仕様のため、
+    # 16 バイトそろっていることを確認します。
+    assert len(random_bytes) == 16
 
     # 2. スタックカナリアを復元する。
     #    glibc は AT_RANDOM の先頭 8 バイトをカナリアの元として読み取り、
